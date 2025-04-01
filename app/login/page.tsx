@@ -46,28 +46,14 @@ export default function AuthPage() {
       <header className="w-full py-6 border-b border-[#7BAE7F]/40">
         <div className="container flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-[#7BAE7F]/20 shadow-lg hover:shadow-xl transition-all duration-300 group overflow-hidden">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#7BAE7F]/20 to-[#FFCBA4]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute -inset-1 rounded-full bg-[#7BAE7F]/10 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute -inset-2 rounded-full bg-[#FFCBA4]/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                  <Image
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ZenLogo001.jpg-c53JfkylJXMDVV8XUs9T0M9iT3U53D.jpeg"
-                    alt="Zenplate.ai Logo"
-                    fill
-                    className="object-cover transform group-hover:scale-110 transition-transform duration-300"
-                    sizes="40px"
-                  />
-                </div>
-              </div>
-              {/* Decorative dots */}
-              <div className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm" />
-              <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm" />
-              <div className="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm" />
-              <div className="absolute -bottom-1 -right-1 w-2 h-2 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm" />
-            </div>
-            <span className="text-xl font-bold text-[#333333] group-hover:text-[#7BAE7F] transition-colors duration-300">zenplate.ai</span>
+            <Image
+              src="/images/zenplate-logo.png"
+              alt="Zenplate.ai Logo"
+              width={50}
+              height={50}
+              className="rounded-full"
+            />
+            <span className="text-xl font-bold text-[#333333]">zenplate.ai</span>
           </Link>
           <nav className="flex items-center gap-6">
             <Link href="/" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
@@ -108,23 +94,23 @@ export default function AuthPage() {
             {/* Left side - Image */}
             <div className="relative hidden md:block">
               <div className="relative w-full aspect-square max-w-[500px] mx-auto">
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#7BAE7F]/20 to-[#FFCBA4]/20 blur-3xl" />
-                <div className="absolute inset-0 rounded-3xl bg-white/30 backdrop-blur-xl border border-[#7BAE7F]/20 shadow-2xl" />
-                <div className="relative h-full rounded-3xl overflow-hidden">
+                {/* Animated gradient background */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#7BAE7F]/5 via-[#FFCBA4]/5 to-[#7BAE7F]/5 animate-gradient-x blur-3xl" />
+                <div className="relative h-full rounded-3xl overflow-hidden bg-gradient-to-br from-[#E8F5E9] to-[#F5F5F5] shadow-xl hover:shadow-2xl transition-all duration-500">
                   <Image
-                    src="/images/wellness-illustration.jpg"
-                    alt="Wellness Journey Illustration"
+                    src="/images/zenplate-logo.png"
+                    alt="Zenplate.ai Logo"
                     fill
-                    className="object-cover transform hover:scale-105 transition-transform duration-500"
+                    className="object-contain transform hover:scale-105 transition-all duration-700 ease-out"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority
                   />
                 </div>
-                {/* Decorative elements */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm" />
-                <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm" />
-                <div className="absolute -bottom-4 -left-4 w-8 h-8 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm" />
-                <div className="absolute -bottom-4 -right-4 w-8 h-8 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm" />
+                {/* Animated decorative elements */}
+                <div className="absolute -top-4 -left-4 w-8 h-8 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm animate-pulse" />
+                <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm animate-pulse delay-150" />
+                <div className="absolute -bottom-4 -left-4 w-8 h-8 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm animate-pulse delay-300" />
+                <div className="absolute -bottom-4 -right-4 w-8 h-8 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm animate-pulse delay-500" />
               </div>
             </div>
 
