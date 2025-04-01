@@ -25,7 +25,7 @@ export default function LandingPage() {
           >
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ZenLogo001.jpg-c53JfkylJXMDVV8XUs9T0M9iT3U53D.jpeg"
+                src="/images/Zenpatch2.png"
                 alt="Zenplate.ai Logo"
                 width={50}
                 height={50}
@@ -88,11 +88,9 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                Transform Your
-                <br />
                 <span className="relative">
                   <span className="bg-gradient-to-r from-[#7BAE7F] via-[#4C6B57] to-[#7BAE7F] bg-clip-text text-transparent animate-gradient-x">
-                    Wellness Journey
+                    Your AI-Powered Path to Holistic Wellness
                   </span>
                   <motion.span
                     className="absolute inset-0 bg-gradient-to-r from-[#7BAE7F]/20 to-[#FFCBA4]/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -106,8 +104,6 @@ export default function LandingPage() {
                     }}
                   />
                 </span>
-                <br />
-                <span className="text-[#7BAE7F] drop-shadow-sm">with AI</span>
               </motion.h1>
 
               <motion.p 
@@ -202,12 +198,12 @@ export default function LandingPage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <div className="relative mx-auto w-[500px] h-[500px]">
+              <div className="relative mx-auto w-[450px] h-[450px] md:w-[500px] md:h-[500px] lg:w-[550px] lg:h-[550px]">
                 {/* Enhanced Background Elements */}
                 <div className="absolute inset-0">
                   {/* Circular Pattern with Enhanced Animation */}
                   <motion.div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border-4 border-[#7BAE7F]/20"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[400px] md:h-[400px] lg:w-[450px] lg:h-[450px] rounded-full border-4 border-[#7BAE7F]/20"
                     animate={{
                       scale: [1, 1.1, 1],
                       rotate: [0, 5, 0],
@@ -219,7 +215,7 @@ export default function LandingPage() {
                     }}
                   />
                   <motion.div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border-4 border-[#FFCBA4]/20"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[350px] md:h-[350px] lg:w-[400px] lg:h-[400px] rounded-full border-4 border-[#FFCBA4]/20"
                     animate={{
                       scale: [1, 0.9, 1],
                       rotate: [0, -5, 0],
@@ -243,19 +239,13 @@ export default function LandingPage() {
                 >
                   <div className="relative">
                     {/* Enhanced Logo Container */}
-                    <div className="relative bg-white/20 rounded-3xl p-8 shadow-2xl border border-[#7BAE7F]/10 backdrop-blur-xl transform hover:shadow-[#7BAE7F]/30 transition-all duration-300">
-                      {/* Enhanced Decorative Elements */}
-                      <div className="absolute -top-3 -left-3 w-6 h-6 bg-[#7BAE7F]/80 rounded-full shadow-lg animate-pulse backdrop-blur-sm" />
-                      <div className="absolute -top-3 -right-3 w-6 h-6 bg-[#FFCBA4]/80 rounded-full shadow-lg animate-pulse delay-300 backdrop-blur-sm" />
-                      <div className="absolute -bottom-3 -left-3 w-6 h-6 bg-[#FFCBA4]/80 rounded-full shadow-lg animate-pulse delay-600 backdrop-blur-sm" />
-                      <div className="absolute -bottom-3 -right-3 w-6 h-6 bg-[#7BAE7F]/80 rounded-full shadow-lg animate-pulse delay-900 backdrop-blur-sm" />
-                      
+                    <div className="relative p-8 transform transition-all duration-300">
                       {/* Logo with Enhanced Hover Effect */}
                       <div className="relative group">
                         <div className="absolute inset-0 bg-gradient-to-r from-[#7BAE7F]/5 to-[#FFCBA4]/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm" />
                         <div className="absolute inset-0 bg-[#7BAE7F]/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         <Image
-                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/101.jpg-zQtGv5HLQZ8nS5Ayjx87Sxmg8i3Jj4.jpeg"
+                          src="/images/ZenplateLogo02.png"
                           alt="Zenplate.ai Badge"
                           width={180}
                           height={180}
@@ -413,7 +403,7 @@ export default function LandingPage() {
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ZenLogo001.jpg-c53JfkylJXMDVV8XUs9T0M9iT3U53D.jpeg"
+                  src="/images/ZenplateLogo02.png"
                   alt="Zenplate.ai Logo"
                   width={40}
                   height={40}

@@ -116,10 +116,10 @@ export default function FeaturesPage() {
         <div className="container flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ZenLogo001.jpg-c53JfkylJXMDVV8XUs9T0M9iT3U53D.jpeg"
+              src="/images/Zenpatch2.png"
               alt="Zenplate.ai Logo"
-              width={40}
-              height={40}
+              width={50}
+              height={50}
               className="rounded-full"
             />
             <span className="text-xl font-bold text-[#333333]">zenplate.ai</span>

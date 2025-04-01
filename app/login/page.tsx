@@ -47,7 +47,7 @@ export default function AuthPage() {
         <div className="container flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/images/zenplate-logo.png"
+              src="/images/Zenpatch2.png"
               alt="Zenplate.ai Logo"
               width={50}
               height={50}
@@ -96,9 +96,9 @@ export default function AuthPage() {
               <div className="relative w-full aspect-square max-w-[500px] mx-auto">
                 {/* Animated gradient background */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#7BAE7F]/5 via-[#FFCBA4]/5 to-[#7BAE7F]/5 animate-gradient-x blur-3xl" />
-                <div className="relative h-full rounded-3xl overflow-hidden bg-gradient-to-br from-[#E8F5E9] to-[#F5F5F5] shadow-xl hover:shadow-2xl transition-all duration-500">
+                <div className="relative h-full rounded-3xl overflow-hidden">
                   <Image
-                    src="/images/zenplate-logo.png"
+                    src="/images/ZenplateLogo02.png"
                     alt="Zenplate.ai Logo"
                     fill
                     className="object-contain transform hover:scale-105 transition-all duration-700 ease-out"
@@ -106,11 +106,6 @@ export default function AuthPage() {
                     priority
                   />
                 </div>
-                {/* Animated decorative elements */}
-                <div className="absolute -top-4 -left-4 w-8 h-8 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm animate-pulse" />
-                <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm animate-pulse delay-150" />
-                <div className="absolute -bottom-4 -left-4 w-8 h-8 rounded-full bg-[#FFCBA4]/80 backdrop-blur-sm animate-pulse delay-300" />
-                <div className="absolute -bottom-4 -right-4 w-8 h-8 rounded-full bg-[#7BAE7F]/80 backdrop-blur-sm animate-pulse delay-500" />
               </div>
             </div>
 
