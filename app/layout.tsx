@@ -1,20 +1,28 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
+import { StickyNav } from '@/components/sticky-nav'
+import { BackToTop } from '@/components/back-to-top'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Zenplate.ai - AI-Powered Wellness Platform',
+  description: 'Transform your wellness journey with personalized AI recommendations and holistic guidance.',
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>
+        <StickyNav />
+        {children}
+        <BackToTop />
+      </body>
     </html>
   )
 }
