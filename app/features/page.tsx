@@ -111,36 +111,6 @@ export default function FeaturesPage() {
 
   return (
     <div className="min-h-screen bg-[#E8F5E9] flex flex-col">
-      {/* Header */}
-      <header className="w-full py-6 border-b border-[#7BAE7F]/40">
-        <div className="container flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/images/Zenpatch2.png"
-              alt="Zenplate.ai Logo"
-              width={50}
-              height={50}
-              className="rounded-full"
-            />
-            <span className="text-xl font-bold text-[#333333]">zenplate.ai</span>
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              Home
-            </Link>
-            <Link href="/features" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              Features
-            </Link>
-            <Link href="/ai-chat" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              AI Chat
-            </Link>
-            <Link href="/login" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              Login
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       {/* Breadcrumbs */}
       <div className="container py-4">
         <Breadcrumb>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion, useScroll, useSpring } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
@@ -49,7 +50,14 @@ export function StickyNav() {
       >
         <div className="container mx-auto px-4">
           <nav className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/images/Zenpatch2.png"
+                alt="Zenplate.ai Logo"
+                width={50}
+                height={50}
+                className="rounded-full"
+              />
               <span className="text-xl font-bold text-[#333333]">zenplate.ai</span>
             </Link>
 

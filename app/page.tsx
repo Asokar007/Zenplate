@@ -15,47 +15,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-[#E8F5E9]">
-      {/* Header */}
-      <header className="w-full py-6">
-        <div className="container flex items-center justify-between">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Link href="/" className="flex items-center gap-3">
-              <Image
-                src="/images/Zenpatch2.png"
-                alt="Zenplate.ai Logo"
-                width={50}
-                height={50}
-                className="rounded-full"
-              />
-              <span className="text-xl font-bold text-[#333333]">zenplate.ai</span>
-            </Link>
-          </motion.div>
-          <motion.nav 
-            className="flex items-center gap-6"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Link href="/" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              Home
-            </Link>
-            <Link href="/features" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              Features
-            </Link>
-            <Link href="/ai-chat" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              AI Chat
-            </Link>
-            <Link href="/login" className="text-[#333333] text-base font-medium hover:text-[#7BAE7F] transition-colors">
-              Login
-            </Link>
-          </motion.nav>
-        </div>
-      </header>
-
       <main>
         {/* Hero Section */}
         <section className="container py-20 relative overflow-hidden">
