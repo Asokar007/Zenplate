@@ -43,19 +43,39 @@ export default function AIChatPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
+        credentials: 'same-origin',
         body: JSON.stringify({
           messages: [...messages, userMessage],
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get response from AI');
+      // Log the response status and headers
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      // Get the raw response text first
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+
+      // If the response is empty, throw an error
+      if (!responseText) {
+        throw new Error('Empty response from server');
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse response:', parseError);
+        throw new Error('Invalid response from server');
+      }
       
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to get response from AI');
+      }
+
       if (!data.message) {
         throw new Error('Invalid response format from AI');
       }
