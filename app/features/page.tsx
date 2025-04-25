@@ -8,8 +8,8 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbP
 export default function FeaturesPage() {
   const features = [
     {
-      title: "AI Nutrition Assistant",
-      description: "Get personalized nutrition advice and meal recommendations based on your preferences and goals.",
+      title: "Nutrition Guide",
+      description: "Access comprehensive nutrition information and healthy eating guidelines.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ export default function FeaturesPage() {
           <path d="M16 12h.01" />
         </svg>
       ),
-      link: "/ai-chat"
+      link: "/features"
     },
     {
       title: "Ayurvedic Food Guide",
@@ -53,7 +53,7 @@ export default function FeaturesPage() {
           <path d="M12 22a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2 2 2 0 0 1 2 2v2a2 2 0 0 1-2 2z" />
         </svg>
       ),
-      link: "/ai-chat"
+      link: "/features"
     },
     {
       title: "Mindful Eating",
@@ -77,7 +77,7 @@ export default function FeaturesPage() {
           <path d="M16 12h.01" />
         </svg>
       ),
-      link: "/ai-chat"
+      link: "/features"
     },
     {
       title: "Seasonal Eating",
@@ -105,7 +105,7 @@ export default function FeaturesPage() {
           <circle cx="12" cy="12" r="5" />
         </svg>
       ),
-      link: "/ai-chat"
+      link: "/features"
     }
   ];
 

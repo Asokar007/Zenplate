@@ -1,374 +1,188 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { toast } from 'sonner';
 
 export default function AIChatPage() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Scroll to bottom when new messages arrive
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([
+    {
+      role: 'assistant',
+      content: 'Welcome to Your Wellness Journey!\n\nI\'m here to guide you on your path to better health and wellness. Whether you\'re interested in Ayurvedic principles, mindful eating, or healthy recipes, I\'m here to help.'
     }
-  }, [messages]);
+  ]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    const userMessage: Message = {
-      role: 'user',
-      content: input.trim(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
+  const handleSend = async () => {
+    if (!message.trim() || isLoading) return;
 
     try {
+      setIsLoading(true);
+      
+      // Add user message
+      const userMessage = { role: 'user', content: message };
+      setMessages(prev => [...prev, userMessage]);
+      setMessage('');
+
+      // Call the API
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
-        credentials: 'same-origin',
         body: JSON.stringify({
           messages: [...messages, userMessage],
         }),
       });
 
-      // Log the response status and headers
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-      // Get the raw response text first
-      const responseText = await response.text();
-      console.log('Raw response:', responseText);
-
-      // If the response is empty, throw an error
-      if (!responseText) {
-        throw new Error('Empty response from server');
-      }
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Failed to parse response:', parseError);
-        throw new Error('Invalid response from server');
-      }
-      
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response from AI');
+        throw new Error('Failed to get response');
       }
 
-      if (!data.message) {
-        throw new Error('Invalid response format from AI');
-      }
-
-      const aiMessage: Message = {
-        role: 'assistant',
-        content: data.message,
-      };
-
-      setMessages((prev) => [...prev, aiMessage]);
-    } catch (error: any) {
-      console.error('Error getting AI response:', error);
-      const errorMessage: Message = {
-        role: 'assistant',
-        content: `Error: ${error.message || 'Sorry, I encountered an error. Please try again.'}`,
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      const data = await response.json();
+      setMessages(prev => [...prev, data.message]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error('Failed to send message. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleQuickAction = async (topic: string) => {
+    const quickMessage = `Tell me about ${topic.toLowerCase()}`;
+    setMessage(quickMessage);
+    await handleSend();
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#E8F5E9] to-[#F5F9F5] flex flex-col">
-      {/* Chat Container */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden flex flex-col h-[calc(100vh-12rem)] border border-[#7BAE7F]/20">
-        {/* Chat Header */}
-        <div className="p-6 border-b border-[#7BAE7F]/40 bg-gradient-to-r from-[#E8F5E9] to-[#F5F9F5]">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center ring-2 ring-[#7BAE7F]/20 shadow-sm">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#7BAE7F"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-[#2C3E50]">AI Nutrition Assistant</h2>
-              <p className="text-sm text-[#4f5d75]">Ask me anything about nutrition and meal planning</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Messages Area */}
-        <ScrollArea className="flex-1 p-6" ref={scrollAreaRef}>
-          <div className="space-y-6">
-            {messages.length === 0 && (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white flex items-center justify-center ring-2 ring-[#7BAE7F]/20 shadow-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#7BAE7F"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-[#2C3E50] mb-2">Welcome to Your Wellness Journey!</h3>
-                <p className="text-[#4f5d75] max-w-md mx-auto">
-                  I'm here to guide you on your path to better health and wellness. Whether you're interested in Ayurvedic principles, mindful eating, or healthy recipes, I'm here to help.
-                </p>
-                <div className="mt-8 grid grid-cols-2 gap-4 max-w-md mx-auto">
-                  <button
-                    onClick={() => setInput("What are some Ayurvedic food suggestions for my dosha type?")}
-                    className="p-3 text-sm bg-white hover:bg-[#E8F5E9] text-[#2C3E50] rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md border border-[#7BAE7F]/20"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
-                      <path d="M12 8v8" />
-                      <path d="M5 3a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5z" />
-                      <path d="M17 3a2 2 0 0 1 2 2v2c0 1.1-.9 2-2 2h-2a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2z" />
-                    </svg>
-                    Ayurvedic Foods
-                  </button>
-                  <button
-                    onClick={() => setInput("Can you suggest some healthy and nutritious recipes?")}
-                    className="p-3 text-sm bg-white hover:bg-[#E8F5E9] text-[#2C3E50] rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md border border-[#7BAE7F]/20"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
-                      <path d="M12 8v8" />
-                      <path d="M8 12h8" />
-                    </svg>
-                    Recipes
-                  </button>
-                </div>
-                <div className="mt-4 grid grid-cols-2 gap-4 max-w-md mx-auto">
-                  <button
-                    onClick={() => setInput("What are some mindfulness practices for better eating habits?")}
-                    className="p-3 text-sm bg-white hover:bg-[#E8F5E9] text-[#2C3E50] rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md border border-[#7BAE7F]/20"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="12" y1="8" x2="12" y2="12" />
-                      <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
-                    Mindfulness
-                  </button>
-                  <button
-                    onClick={() => setInput("What are some seasonal eating recommendations?")}
-                    className="p-3 text-sm bg-white hover:bg-[#E8F5E9] text-[#2C3E50] rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md border border-[#7BAE7F]/20"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="5" />
-                      <line x1="12" y1="1" x2="12" y2="3" />
-                      <line x1="12" y1="21" x2="12" y2="23" />
-                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                      <line x1="1" y1="12" x2="3" y2="12" />
-                      <line x1="21" y1="12" x2="23" y2="12" />
-                      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                    </svg>
-                    Seasonal Eating
-                  </button>
-                </div>
-              </div>
-            )}
-            
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-4 transition-all duration-200 hover:shadow-md ${
-                    message.role === "user"
-                      ? "bg-gradient-to-br from-[#FFCBA4] to-[#FFD4B8] text-[#2C3E50] shadow-sm"
-                      : "bg-gradient-to-br from-[#E8F5E9] to-[#F5F9F5] text-[#2C3E50] shadow-sm"
-                  }`}
-                >
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                  <div className={`mt-2 text-xs flex items-center gap-1 ${
-                    message.role === "user" ? "text-[#2C3E50]/70" : "text-[#4f5d75]"
-                  }`}>
-                    {message.role === "user" ? (
-                      <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
-                        </svg>
-                        You
-                      </>
-                    ) : (
-                      <>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
-                          <path d="M12 8v8" />
-                          <path d="M5 3a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5z" />
-                          <path d="M17 3a2 2 0 0 1 2 2v2c0 1.1-.9 2-2 2h-2a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2z" />
-                        </svg>
-                        AI Assistant
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-            
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gradient-to-br from-[#E8F5E9] to-[#F5F9F5] rounded-lg p-4 shadow-sm">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-[#7BAE7F] rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-[#7BAE7F] rounded-full animate-bounce delay-100"></div>
-                    <div className="w-2 h-2 bg-[#7BAE7F] rounded-full animate-bounce delay-200"></div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </ScrollArea>
-
-        {/* Input Area */}
-        <div className="p-6 border-t border-[#7BAE7F]/40 bg-gradient-to-r from-[#E8F5E9] to-[#F5F9F5]">
-          <form onSubmit={handleSubmit} className="flex gap-4">
-            <Input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything about nutrition..."
-              className="flex-1 border-[#7BAE7F]/20 focus:border-[#7BAE7F] focus:ring-[#7BAE7F] bg-white/80 backdrop-blur-sm"
-            />
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="bg-gradient-to-r from-[#FFCBA4] to-[#FFD4B8] hover:from-[#FFD4B8] hover:to-[#FFCBA4] text-[#2C3E50] min-w-[100px] shadow-sm hover:shadow-md transition-all duration-200"
-            >
-              {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <svg
-                    className="animate-spin h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Sending...
-                </div>
-              ) : (
-                "Send"
-              )}
-            </Button>
-          </form>
-        </div>
+    <div className="min-h-screen bg-[#E8F5E9] flex flex-col">
+      {/* Breadcrumbs */}
+      <div className="container py-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>AI Chat</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
+
+      {/* Main Content */}
+      <main className="flex-1 py-12 relative">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237BAE7F' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
+
+        <div className="container relative">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-[#333333] mb-4">AI Nutrition Assistant</h1>
+            <p className="text-[#4f5d75] max-w-2xl mx-auto text-lg">
+              Ask me anything about nutrition and meal planning
+            </p>
+          </div>
+
+          {/* Chat Container */}
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 mb-8">
+            {/* Messages */}
+            <div className="space-y-6 mb-6 max-h-[60vh] overflow-y-auto">
+              {messages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] p-4 rounded-2xl ${
+                      msg.role === 'user'
+                        ? 'bg-[#FFCBA4] text-[#333333]'
+                        : 'bg-[#7BAE7F] text-white'
+                    }`}
+                  >
+                    <p className="whitespace-pre-line">{msg.content}</p>
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="max-w-[80%] p-4 rounded-2xl bg-[#7BAE7F] text-white">
+                    <div className="flex space-x-2">
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input Area */}
+            <div className="flex gap-4">
+              <Input
+                type="text"
+                placeholder="Type your message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                className="flex-1"
+                disabled={isLoading}
+              />
+              <Button
+                onClick={handleSend}
+                className="bg-[#7BAE7F] hover:bg-[#7BAE7F]/90"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Sending...' : 'Send'}
+              </Button>
+            </div>
+          </div>
+
+          {/* Quick Action Buttons */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <Button 
+              variant="outline" 
+              className="bg-white hover:bg-[#E8F5E9]"
+              onClick={() => handleQuickAction('Ayurvedic Foods')}
+              disabled={isLoading}
+            >
+              Ayurvedic Foods
+            </Button>
+            <Button 
+              variant="outline" 
+              className="bg-white hover:bg-[#E8F5E9]"
+              onClick={() => handleQuickAction('Recipes')}
+              disabled={isLoading}
+            >
+              Recipes
+            </Button>
+            <Button 
+              variant="outline" 
+              className="bg-white hover:bg-[#E8F5E9]"
+              onClick={() => handleQuickAction('Mindfulness')}
+              disabled={isLoading}
+            >
+              Mindfulness
+            </Button>
+            <Button 
+              variant="outline" 
+              className="bg-white hover:bg-[#E8F5E9]"
+              onClick={() => handleQuickAction('Seasonal Eating')}
+              disabled={isLoading}
+            >
+              Seasonal Eating
+            </Button>
+          </div>
+        </div>
+      </main>
     </div>
   );
 } 

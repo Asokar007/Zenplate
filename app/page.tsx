@@ -377,17 +377,18 @@ export default function LandingPage() {
             <div>
               <h3 className="font-semibold text-[#333333] mb-4">Product</h3>
               <ul className="space-y-2">
+                <li><Link href="/" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Home</Link></li>
                 <li><Link href="/features" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Features</Link></li>
-                <li><Link href="/pricing" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Pricing</Link></li>
                 <li><Link href="/ai-chat" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">AI Chat</Link></li>
+                <li><Link href="/daily-challenge" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Daily Challenge</Link></li>
+                <li><Link href="/contact" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Contact</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-[#333333] mb-4">Company</h3>
               <ul className="space-y-2">
                 <li><Link href="/about" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">About</Link></li>
-                <li><Link href="/contact" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Contact</Link></li>
-                <li><Link href="/blog" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Blog</Link></li>
+                <li><Link href="/login" className="text-[#4f5d75] hover:text-[#7BAE7F] transition-colors">Login/Register</Link></li>
               </ul>
             </div>
             <div>

@@ -26,11 +26,12 @@ export function StickyNav() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const navItems = [
+  const navigationItems = [
     { name: "Home", href: "/" },
     { name: "Features", href: "/features" },
     { name: "AI Chat", href: "/ai-chat" },
-    { name: "Login", href: "/login" },
+    { name: "Daily Challenge", href: "/daily-challenge" },
+    { name: "Login/Register", href: "/contact" },
   ]
 
   return (
@@ -62,7 +63,7 @@ export function StickyNav() {
             </Link>
 
             <div className="flex items-center gap-6">
-              {navItems.map((item) => (
+              {navigationItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
